@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CountriesService } from '../../services/countries.service';
 
 import { SmallCountry } from '../../interfaces/region.interface';
+import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-selector-page',
@@ -29,11 +30,14 @@ export class SelectorPageComponent implements OnInit {
     this.regions = this._countriesService.regions;
 
     this.myForm.get('region')?.valueChanges
-      .subscribe( region => {
-        this._countriesService.getCountriesByRegion( region )
-          .subscribe( countries => {
-            this.countries = countries;
-          })
+      .pipe(
+        tap( ( _ ) => {
+          this.myForm.get('country')?.reset('');
+        }),
+        switchMap( region => this._countriesService.getCountriesByRegion(region))
+      )
+      .subscribe( countries => {
+        this.countries = countries;
       })
   }
 
