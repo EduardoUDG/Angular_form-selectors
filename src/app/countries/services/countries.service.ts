@@ -28,7 +28,7 @@ export class CountriesService {
     return this._http.get<SmallCountry[]>(`${this._baseUrl}/region/${region}?fields=alpha3Code,name`)
   }
 
-  getCountriesByCode( alphaCode:string ): Observable<Country | null> {
+  getCountryByCode( alphaCode:string ): Observable<Country | null> {
     if( !alphaCode ) {
       return of(null);
     }

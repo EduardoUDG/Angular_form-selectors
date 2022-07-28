@@ -46,8 +46,15 @@ export class SelectorPageComponent implements OnInit {
 
     // region selected
     this.myForm.get('country')?.valueChanges
-      .subscribe( alphaCode => {
-        console.log( alphaCode );
+      .pipe(
+        tap( ( _ ) => {
+          this.borders = [];
+          this.myForm.get('border')?.reset('');
+        }),
+        switchMap( alphaCode => this._countriesService.getCountryByCode(alphaCode))
+      )
+      .subscribe( country => {
+        this.borders = country?.borders || [];
       });
 
   }
