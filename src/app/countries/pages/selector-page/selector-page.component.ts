@@ -13,22 +13,26 @@ import { switchMap, tap } from 'rxjs';
 })
 export class SelectorPageComponent implements OnInit {
 
-  regions   : string[] = []
   countries : SmallCountry[] = [];
+  regions   : string[] = [];
+  borders   : string[] = [];
 
   myForm: FormGroup = this._fb.group({
-    region: ['', [Validators.required]],
-    country: ['', [Validators.required]]
+    region  : ['', [Validators.required]],
+    country : ['', [Validators.required]],
+    border  : ['', [Validators.required]]
   });
+
 
   constructor(
     private _fb: FormBuilder,
     private _countriesService: CountriesService
   ) { }
 
+
   ngOnInit(): void {
     this.regions = this._countriesService.regions;
-
+    // region selected
     this.myForm.get('region')?.valueChanges
       .pipe(
         tap( ( _ ) => {
@@ -38,7 +42,14 @@ export class SelectorPageComponent implements OnInit {
       )
       .subscribe( countries => {
         this.countries = countries;
-      })
+      });
+
+    // region selected
+    this.myForm.get('country')?.valueChanges
+      .subscribe( alphaCode => {
+        console.log( alphaCode );
+      });
+
   }
 
   submit() {
