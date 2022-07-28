@@ -15,7 +15,8 @@ export class SelectorPageComponent implements OnInit {
 
   regions   : string[] = [];
   countries : SmallCountry[] = [];
-  borders   : string[] = [];
+  // borders   : string[] = [];
+  borders   : SmallCountry[] = [];
 
   myForm: FormGroup = this._fb.group({
     region  : ['', [Validators.required]],
@@ -44,17 +45,19 @@ export class SelectorPageComponent implements OnInit {
         this.countries = countries;
       });
 
-    // region selected
+    // country selected
     this.myForm.get('country')?.valueChanges
       .pipe(
         tap( ( _ ) => {
           this.borders = [];
           this.myForm.get('border')?.reset('');
         }),
-        switchMap( alphaCode => this._countriesService.getCountryByCode(alphaCode))
+        switchMap( alphaCode => this._countriesService.getCountryByCode(alphaCode)),
+        switchMap( country => this._countriesService.getCountriesByCodes( country?.borders! ) )
       )
       .subscribe( country => {
-        this.borders = country?.borders || [];
+        // this.borders = country?.borders || [];
+        this.borders = country || [];
       });
 
   }
