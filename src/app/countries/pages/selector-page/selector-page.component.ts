@@ -13,8 +13,8 @@ import { switchMap, tap } from 'rxjs';
 })
 export class SelectorPageComponent implements OnInit {
 
-  countries : SmallCountry[] = [];
   regions   : string[] = [];
+  countries : SmallCountry[] = [];
   borders   : string[] = [];
 
   myForm: FormGroup = this._fb.group({

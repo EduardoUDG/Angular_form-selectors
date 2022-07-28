@@ -22,7 +22,8 @@
     </div>
 
     <!-- Select a country -->
-    <div class="row mb-3">
+    <div class="row mb-3"
+         *ngIf="countries.length !== 0">
       <div class="col">
         <label class="form-label"></label>
           <select class="form-control"
@@ -36,8 +37,9 @@
         </div>
     </div>
 
-    <!-- Select a frontier -->
-    <div class="row mb-3">
+    <!-- Select a border -->
+    <div class="row mb-3"
+         *ngIf="borders.length > 0">
       <div class="col">
         <label class="form-label"></label>
           <select class="form-control"
